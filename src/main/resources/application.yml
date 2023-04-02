@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/acore_auth?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: root
+      password: root
+  mvc:
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: /static/**
+# mybatis配置config
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.ltf.azerothcore.mapper
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

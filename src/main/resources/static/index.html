@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>注册页面</title>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F5F5F5;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #FFF;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #CCC;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #FFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0069D9;
+        }
+        #register-form {
+            width: 300px;
+            margin: auto;
+            text-align: center;
+        }
+        #register-button {
+            margin-top: 20px;
+        }
+    </style>
+    <script src="/static/jquery-3.6.4.js"></script>
+</head>
+<body>
+<h1>注册</h1>
+<form id="register-form">
+    <label for="username">用户名：</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="email">邮箱：</label>
+    <input type="text" id="email" name="email" required>
+
+    <label for="password">密码：</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="confirm_password">确认密码：</label>
+    <input type="password" id="confirm_password" name="confirm_password" required>
+
+    <input type="submit" id="register-button" value="注册">
+    <label><a href="/static/updatePassword.html">修改密码</a></label>
+
+</form>
+</body>
+<script>
+    $(document).ready(function() {
+        // 监听表单提交事件
+        $('form').submit(function(event) {
+            // 阻止表单默认行为，防止页面跳转
+            event.preventDefault();
+
+            // 获取输入框的值
+            var username = $('#username').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var confirm_password = $('#confirm_password').val();
+
+            // 简单的表单验证，判断所有输入框是否为空以及密码是否一致
+            if (username && email && password && (password === confirm_password)) {
+                // 如果验证通过，发送POST请求到后端进行注册
+                $.ajax({
+                    url: '/user/regedit', // 后端注册接口的URL
+                    method: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(response) {
+                        // 注册成功，跳转到登录页面或者提示用户注册成功
+                        alert(response.msg);
+                    },
+                    error: function(xhr, status, error) {
+                        // 注册失败，提示用户错误信息
+                        alert('注册失败：' + xhr.responseText);
+                    }
+                });
+            } else {
+                // 如果表单验证未通过，提示用户填写完整的表单信息
+                alert('请填写完整的表单信息并确保密码一致！');
+            }
+        });
+    });
+
+</script>
+</html>
